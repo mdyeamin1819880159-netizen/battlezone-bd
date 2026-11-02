@@ -158,12 +158,12 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
 </section>
 
 </main>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {
- getAuth,
+  getAuth,
  createUserWithEmailAndPassword,
+ signInWithEmailAndPassword,
  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
@@ -189,7 +189,6 @@ window.showPage = function(id) {
 window.notice = function() {
  alert("এই সুবিধাটি পরবর্তী ধাপে যুক্ত হবে।");
 };
-
 window.registerUser = async function() {
  const name = document.getElementById("regName").value.trim();
  const email = document.getElementById("regEmail").value.trim();
@@ -201,27 +200,28 @@ window.registerUser = async function() {
   alert("সব ঘর পূরণ করো।");
   return;
  }
+
  if (!terms) {
   alert("Terms & Privacy Policy-তে টিক দাও।");
   return;
  }
+
  if (password.length < 6) {
   alert("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।");
   return;
  }
 
  try {
-  const result = await createUserWithEmailAndPassword(auth,email,password);
-  await updateProfile(result.user,{displayName:name});
+  const result = await createUserWithEmailAndPassword(auth, email, password);
+  await updateProfile(result.user, {displayName: name});
+
   alert("অ্যাকাউন্ট তৈরি হয়েছে!");
   window.showPage("home");
+
  } catch(error) {
   alert("সমস্যা: " + error.message);
  }
 };
-</script>
-</body>
-</html>
 window.signInUser = async function() {
  const email = document.getElementById("loginEmail").value.trim();
  const password = document.getElementById("loginPass").value;
@@ -232,13 +232,9 @@ window.signInUser = async function() {
  }
 
  try {
-  const { signInWithEmailAndPassword } =
-   await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js");
-
   await signInWithEmailAndPassword(auth, email, password);
   alert("Login সফল হয়েছে!");
   window.showPage("home");
-
  } catch(error) {
   alert("Login সমস্যা: " + error.message);
  }
