@@ -2,80 +2,117 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BattleZone BD</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #101827;
-      color: white;
-    }
-    header {
-      background: #18263c;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 2px solid #ffca28;
-    }
-    header h1 {
-      margin: 0;
-      color: #ffca28;
-      font-size: 27px;
-    }
-    header p { margin-bottom: 0; }
-    main {
-      max-width: 500px;
-      margin: 25px auto;
-      padding: 16px;
-    }
-    .card {
-      background: #233650;
-      padding: 22px;
-      border-radius: 14px;
-      margin-bottom: 18px;
-    }
-    h2 { color: #ffca28; }
-    button {
-      background: #ffca28;
-      color: #101827;
-      border: 0;
-      border-radius: 8px;
-      padding: 13px 18px;
-      font-size: 16px;
-      font-weight: bold;
-      width: 100%;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #b9c5d6;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#081426">
+<title>BattleZone BD</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23081426'/%3E%3Cpath d='M50 9 88 29 80 73 50 92 20 73 12 29Z' fill='%23f6bd42'/%3E%3Ctext x='50' y='62' font-size='34' text-anchor='middle' font-weight='bold' fill='%23081426'%3EBZ%3C/text%3E%3C/svg%3E">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#081426;color:#fff;font-family:Arial,sans-serif}
+header{padding:18px;text-align:center;background:#101f36;border-bottom:1px solid #34445d}
+.logo{width:65px;height:65px;margin:auto;border:3px solid #f6bd42;border-radius:18px;display:grid;place-items:center;background:linear-gradient(145deg,#f6bd42,#a96a12);color:#081426;font-size:25px;font-weight:900;transform:rotate(-3deg)}
+.logo span{transform:rotate(3deg)}
+h1{font-size:23px;margin:12px 0 4px;color:#f6bd42}
+.sub{color:#aebbd0;font-size:12px}
+main{max-width:440px;margin:auto;padding:18px}
+.page{display:none}
+.page.active{display:block}
+.card{background:#14253e;border:1px solid #30445f;border-radius:17px;padding:19px;margin:14px 0;box-shadow:0 8px 25px #0003}
+h2{font-size:20px;color:#f6bd42;margin:0 0 16px}
+input{width:100%;padding:14px;margin:7px 0;border:1px solid #3b506c;border-radius:10px;background:#0b192d;color:white;font-size:15px}
+button{border:0;border-radius:10px;padding:13px 16px;background:linear-gradient(90deg,#f6bd42,#ffda77);color:#172033;font-weight:bold;font-size:15px;cursor:pointer}
+button:active{transform:scale(.98)}
+.primary{width:100%;margin-top:10px}
+.link{background:none;color:#f6bd42;padding:10px}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.menu button{min-height:85px;background:#1b3150;color:white;border:1px solid #435775}
+.menu button strong{display:block;color:#f6bd42;font-size:17px;margin-bottom:7px}
+.balance{font-size:30px;font-weight:bold;color:#f6bd42;text-align:center;padding:15px}
+.banner{background:linear-gradient(120deg,#263f62,#9a641e);padding:25px 18px;border-radius:16px;text-align:center;margin-bottom:16px}
+.banner h2{color:white;margin-bottom:8px}
+.note{font-size:12px;color:#aebbd0;line-height:1.6}
+footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
+</style>
 </head>
 <body>
-  <header>
-    <h1>⚔️ BattleZone BD</h1>
-    <p>Free Fire Tournament</p>
-  </header>
+<header>
+ <div class="logo"><span>BZ</span></div>
+ <h1>BATTLEZONE BD</h1>
+ <div class="sub">YOUR BATTLE. YOUR VICTORY.</div>
+</header>
 
-  <main>
-    <section class="card">
-      <h2>স্বাগতম!</h2>
-      <p>BattleZone BD টুর্নামেন্ট প্ল্যাটফর্মে তোমাকে স্বাগতম।</p>
-      <p>এখানে ভবিষ্যতে টুর্নামেন্ট, ম্যাচের সময় ও ফলাফল দেখা যাবে।</p>
-    </section>
+<main>
+<section id="register" class="page active">
+ <div class="card">
+  <h2>Create Account</h2>
+  <input id="regName" placeholder="Username">
+  <input id="regEmail" type="email" placeholder="Email Address">
+  <input id="regPhone" type="tel" placeholder="Mobile Number">
+  <input id="regPass" type="password" placeholder="Password">
+  <label class="note"><input id="terms" type="checkbox" style="width:auto"> I agree to Terms & Privacy Policy</label>
+  <button class="primary" onclick="notice()">CREATE ACCOUNT</button>
+  <p class="note">আগে থেকেই অ্যাকাউন্ট আছে?</p>
+  <button class="link" onclick="showPage('login')">Sign In</button>
+ </div>
+</section>
 
-    <section class="card">
-      <h2>🏆 Tournament</h2>
-      <p>নতুন টুর্নামেন্টের তথ্য শিগগিরই এখানে যোগ করা হবে।</p>
-      <button onclick="alert('Tournament information coming soon!')">
-        টুর্নামেন্ট দেখুন
-      </button>
-    </section>
-  </main>
+<section id="login" class="page">
+ <div class="card">
+  <h2>Welcome Back</h2>
+  <input placeholder="Username">
+  <input type="password" placeholder="Password">
+  <button class="primary" onclick="notice()">SIGN IN</button>
+  <button class="link" onclick="notice()">Forgot Password?</button>
+  <button class="link" onclick="showPage('register')">Create Account</button>
+ </div>
+</section>
 
-  <footer>© 2026 BattleZone BD</footer>
+<section id="home" class="page">
+ <div class="banner">
+  <h2>WELCOME TO BATTLEZONE BD</h2>
+  <p>Play • Compete • Win</p>
+ </div>
+ <div class="card">
+  <h2>🔥 Tournament Arena</h2>
+  <div class="menu">
+   <button onclick="notice()"><strong>BR MATCH</strong>Battle Royale</button>
+   <button onclick="notice()"><strong>CS DUO</strong>2 Players</button>
+   <button onclick="notice()"><strong>CS SQUAD</strong>4 Players</button>
+   <button onclick="showPage('balance')"><strong>MY BALANCE</strong>View Balance</button>
+  </div>
+ </div>
+ <div class="card">
+  <h2>My Account</h2>
+  <p class="note">Player ID ও প্রোফাইল পরবর্তী ধাপে যুক্ত হবে।</p>
+ </div>
+</section>
+
+<section id="balance" class="page">
+ <div class="card">
+  <h2>💰 My Balance</h2>
+  <div class="balance">৳ 0.00</div>
+  <p class="note" style="text-align:center">অ্যাকাউন্ট ও ব্যালেন্স সার্ভার যুক্ত হলে এখানে প্রকৃত হিসাব দেখা যাবে।</p>
+  <button class="primary" onclick="notice()">DEPOSIT</button>
+  <button class="primary" onclick="notice()">WITHDRAW</button>
+  <button class="primary" onclick="notice()">TRANSACTION HISTORY</button>
+ </div>
+ <button class="primary" onclick="showPage('home')">← BACK TO HOME</button>
+</section>
+</main>
+
+<footer>© 2026 BattleZone BD</footer>
+
+<script>
+function showPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ window.scrollTo(0,0);
+}
+function notice(){
+ alert('এই সুবিধাটি পরবর্তী ধাপে নিরাপদ সার্ভারের সঙ্গে যুক্ত করা হবে।');
+}
+</script>
 </body>
 </html>
+
