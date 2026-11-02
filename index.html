@@ -41,6 +41,35 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
  <div class="sub">YOUR BATTLE. YOUR VICTORY.</div>
 </header>
 
+<section id="history" class="page">
+ <div class="card">
+  <h2>📜 Transaction History</h2>
+  <p class="note">তোমার সব লেনদেনের হিসাব এখানে দেখা যাবে।</p>
+
+  <div style="background:#1b3150;padding:15px;border-radius:12px;margin:12px 0">
+   <b>💰 Deposit History</b>
+   <p class="note">জমার অনুরোধ ও অনুমোদনের অবস্থা</p>
+  </div>
+
+  <div style="background:#1b3150;padding:15px;border-radius:12px;margin:12px 0">
+   <b>💸 Withdraw History</b>
+   <p class="note">টাকা তোলার অনুরোধ ও অবস্থা</p>
+  </div>
+
+  <div style="background:#1b3150;padding:15px;border-radius:12px;margin:12px 0">
+   <b>🎮 Match Entry Fee</b>
+   <p class="note">ম্যাচে যোগ দেওয়ার ফি</p>
+  </div>
+
+  <div style="background:#1b3150;padding:15px;border-radius:12px;margin:12px 0">
+   <b>🏆 Prize History</b>
+   <p class="note">পুরস্কারের হিসাব</p>
+  </div>
+
+  <button class="primary" onclick="showPage('home')">← BACK TO HOME</button>
+ </div>
+</section>
+
 <main>
 <section id="register" class="page active">
  <div class="card">
@@ -66,110 +95,67 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
   <button class="link" onclick="showPage('register')">Create Account</button>
  </div>
 </section>
-
 <section id="home" class="page">
- <div class="banner">
-  <h2>WELCOME TO BATTLEZONE BD</h2>
-  <p>Play • Compete • Win</p>
+<style>
+#home{background:#fff7ff;color:#252033;margin:-18px;padding-bottom:95px}
+#home .hero{height:190px;background:linear-gradient(120deg,#27105c,#8b20d7,#152e80);display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:white}
+#home .hero h2{color:#fff;font-size:25px}
+#home .hero p{color:#f4d9ff}
+#home .ticker{text-align:center;color:#e87500;padding:14px;font-weight:bold}
+#home .section-title{text-align:center;color:#51485b;font-size:20px;font-weight:bold;margin:15px}
+#home .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 15px}
+#home .match-card{background:#eee;border:9px solid #526e79;border-radius:17px;overflow:hidden;color:#111;min-width:0}
+#home .match-art{height:145px;background:linear-gradient(135deg,#32116c,#0879b5,#b41ac2);display:grid;place-items:center;color:white;font-size:23px;font-weight:bold;text-align:center}
+#home .match-info{padding:10px}
+#home .match-info b{font-size:16px}
+#home .match-info p{color:#999;font-size:13px;margin-bottom:2px}
+#home .bottom-menu{position:fixed;bottom:0;left:0;right:0;background:#f4edf8;display:grid;grid-template-columns:repeat(4,1fr);padding:12px 4px;z-index:5;text-align:center}
+#home .bottom-menu button{background:transparent;color:#382d4b;padding:9px 2px;font-size:12px}
+#home .bottom-menu span{display:block;font-size:22px;margin-bottom:5px}
+#home .account-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:15px}
+#home .account-links button{background:#34205d;color:white}
+</style>
+
+<div class="hero">
+ <div>
+  <h2>⚔ BATTLEZONE BD ⚔</h2>
+  <p>PLAY • COMPETE • VICTORY</p>
+  <b>WELCOME FIGHTERS!</b>
  </div>
- <div class="card">
-  <h2>🔥 Tournament Arena</h2>
-  <div class="menu">
-   <button onclick="notice()"><strong>BR MATCH</strong>Battle Royale</button>
-   <button onclick="notice()"><strong>CS DUO</strong>2 Players</button>
-   <button onclick="notice()"><strong>CS SQUAD</strong>4 Players</button>
-   <button onclick="showPage('balance')"><strong>MY BALANCE</strong>View Balance</button>
-  </div>
+</div>
+
+<div class="ticker">🏆 BattleZone BD Tournament Arena 🏆</div>
+
+<div class="section-title">FREE FIRE</div>
+<div class="match-grid">
+ <div class="match-card">
+  <div class="match-art">🔥 BR MATCH</div>
+  <div class="match-info"><b>BR MATCH</b><p>Battle Royale</p></div>
  </div>
- <div class="card">
-  <h2>My Account</h2>
-  <p class="note">Player ID ও প্রোফাইল পরবর্তী ধাপে যুক্ত হবে।</p>
+ <div class="match-card">
+  <div class="match-art">⚔ CLASH SQUAD</div>
+  <div class="match-info"><b>Clash Squad</b><p>4 Players</p></div>
  </div>
+ <div class="match-card">
+  <div class="match-art">👑 LONE WOLF</div>
+  <div class="match-info"><b>Lone Wolf</b><p>Solo Match</p></div>
+ </div>
+ <div class="match-card">
+  <div class="match-art">💥 CS DUO</div>
+  <div class="match-info"><b>CS 2 VS 2</b><p>2 Players</p></div>
+ </div>
+</div>
+
+<div class="section-title">MY ACCOUNT</div>
+<div class="account-links">
+ <button onclick="showPage('balance')">💰 My Balance</button>
+ <button onclick="showPage('history')">📜 Transaction History</button>
+</div>
+
+<div class="bottom-menu">
+ <button onclick="showPage('home')"><span>🎮</span>Play</button>
+ <button onclick="notice()"><span>📋</span>My Matches</button>
+ <button onclick="notice()"><span>🏆</span>Results</button>
+ <button onclick="notice()"><span>👤</span>Profile</button>
+</div>
 </section>
-
-<section id="balance" class="page">
- <div class="card">
-  <h2>💰 My Balance</h2>
-  <div class="balance">৳ 0.00</div>
-  <p class="note" style="text-align:center">অ্যাকাউন্ট ও ব্যালেন্স সার্ভার যুক্ত হলে এখানে প্রকৃত হিসাব দেখা যাবে।</p>
-  <button class="primary" onclick="notice()">DEPOSIT</button>
-  <button class="primary" onclick="notice()">WITHDRAW</button>
-  <button class="primary" onclick="notice()">TRANSACTION HISTORY</button>
- </div>
- <button class="primary" onclick="showPage('home')">← BACK TO HOME</button>
-</section>
-</main>
-
-<footer>© 2026 BattleZone BD</footer>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile
-} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDgsq0z3uwRAmpBwWfsv7IGCZ7dVDuPiw0",
-  authDomain: "battlezone-bd-94cbd.firebaseapp.com",
-  projectId: "battlezone-bd-94cbd",
-  storageBucket: "battlezone-bd-94cbd.firebasestorage.app",
-  messagingSenderId: "50794493055",
-  appId: "1:50794493055:web:5d1322e91f04d1a3a47b4a",
-  measurementId: "G-7Q8K9JZWY9"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-window.showPage = function(id) {
-  document.querySelectorAll('.page').forEach(p =>
-    p.classList.remove('active')
-  );
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
-};
-
-window.notice = function() {
-  alert("এই সুবিধাটি পরবর্তী ধাপে যুক্ত করা হবে।");
-};
-
-window.registerUser = async function() {
-  const name = document.getElementById("regName").value.trim();
-  const email = document.getElementById("regEmail").value.trim();
-  const phone = document.getElementById("regPhone").value.trim();
-  const password = document.getElementById("regPass").value;
-  const terms = document.getElementById("terms").checked;
-
-  if (!name || !email || !phone || !password) {
-    alert("সব ঘর পূরণ করো।");
-    return;
-  }
-
-  if (!terms) {
-    alert("Terms & Privacy Policy-তে সম্মতি দাও।");
-    return;
-  }
-
-  if (password.length < 6) {
-    alert("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।");
-    return;
-  }
-
-  try {
-    const result = await createUserWithEmailAndPassword(
-      auth, email, password
-    );
-    await updateProfile(result.user, {
-      displayName: name
-    });
-    alert("অ্যাকাউন্ট তৈরি হয়েছে!");
-    window.showPage("home");
-  } catch (error) {
-    alert("সমস্যা: " + error.message);
-  }
-};
-</script>
-</body>
-</html>
-
