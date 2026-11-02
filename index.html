@@ -85,9 +85,9 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
 <section id="login" class="page">
  <div class="card">
   <h2>Welcome Back</h2>
-  <input placeholder="Username">
-  <input type="password" placeholder="Password">
-  <button class="primary" onclick="notice()">SIGN IN</button>
+  <input id="loginEmail" type="email" placeholder="Email Address">
+  <input id="loginPass" type="password" placeholder="Password">
+  <button class="primary" onclick="signInUser()">SIGN IN</button>
   <button class="link" onclick="notice()">Forgot Password?</button>
   <button class="link" onclick="showPage('register')">Create Account</button>
  </div>
@@ -156,3 +156,93 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
  <button onclick="notice()"><span>👤</span>Profile</button>
 </div>
 </section>
+
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+ getAuth,
+ createUserWithEmailAndPassword,
+ updateProfile
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyDgsq0z3uwRAmpBwWfsv7IGCZ7dVDuPiw0",
+ authDomain: "battlezone-bd-94cbd.firebaseapp.com",
+ projectId: "battlezone-bd-94cbd",
+ storageBucket: "battlezone-bd-94cbd.firebasestorage.app",
+ messagingSenderId: "50794493055",
+ appId: "1:50794493055:web:5d1322e91f04d1a3a47b4a",
+ measurementId: "G-7Q8K9JZWY9"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.showPage = function(id) {
+ document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ window.scrollTo(0,0);
+};
+
+window.notice = function() {
+ alert("এই সুবিধাটি পরবর্তী ধাপে যুক্ত হবে।");
+};
+
+window.registerUser = async function() {
+ const name = document.getElementById("regName").value.trim();
+ const email = document.getElementById("regEmail").value.trim();
+ const phone = document.getElementById("regPhone").value.trim();
+ const password = document.getElementById("regPass").value;
+ const terms = document.getElementById("terms").checked;
+
+ if (!name || !email || !phone || !password) {
+  alert("সব ঘর পূরণ করো।");
+  return;
+ }
+ if (!terms) {
+  alert("Terms & Privacy Policy-তে টিক দাও।");
+  return;
+ }
+ if (password.length < 6) {
+  alert("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।");
+  return;
+ }
+
+ try {
+  const result = await createUserWithEmailAndPassword(auth,email,password);
+  await updateProfile(result.user,{displayName:name});
+  alert("অ্যাকাউন্ট তৈরি হয়েছে!");
+  window.showPage("home");
+ } catch(error) {
+  alert("সমস্যা: " + error.message);
+ }
+};
+</script>
+</body>
+</html>
+window.signInUser = async function() {
+ const email = document.getElementById("loginEmail").value.trim();
+ const password = document.getElementById("loginPass").value;
+
+ if (!email || !password) {
+  alert("ইমেইল ও পাসওয়ার্ড লিখো।");
+  return;
+ }
+
+ try {
+  const { signInWithEmailAndPassword } =
+   await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js");
+
+  await signInWithEmailAndPassword(auth, email, password);
+  alert("Login সফল হয়েছে!");
+  window.showPage("home");
+
+ } catch(error) {
+  alert("Login সমস্যা: " + error.message);
+ }
+};
+</script>
+</body>
+</html>
