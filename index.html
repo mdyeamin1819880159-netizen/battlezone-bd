@@ -51,7 +51,7 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
   <input id="regPhone" type="tel" placeholder="Mobile Number">
   <input id="regPass" type="password" placeholder="Password">
   <label class="note"><input id="terms" type="checkbox" style="width:auto"> I agree to Terms & Privacy Policy</label>
-  <button class="primary" onclick="notice()">CREATE ACCOUNT</button>
+  <button class="primary" onclick="registerUser()">CREATE ACCOUNT</button>
   <p class="note">আগে থেকেই অ্যাকাউন্ট আছে?</p>
   <button class="link" onclick="showPage('login')">Sign In</button>
  </div>
@@ -103,15 +103,75 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
 
 <footer>© 2026 BattleZone BD</footer>
 
-<script>
-function showPage(id){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- window.scrollTo(0,0);
-}
-function notice(){
- alert('এই সুবিধাটি পরবর্তী ধাপে নিরাপদ সার্ভারের সঙ্গে যুক্ত করা হবে।');
-}
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDgsq0z3uwRAmpBwWfsv7IGCZ7dVDuPiw0",
+  authDomain: "battlezone-bd-94cbd.firebaseapp.com",
+  projectId: "battlezone-bd-94cbd",
+  storageBucket: "battlezone-bd-94cbd.firebasestorage.app",
+  messagingSenderId: "50794493055",
+  appId: "1:50794493055:web:5d1322e91f04d1a3a47b4a",
+  measurementId: "G-7Q8K9JZWY9"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.showPage = function(id) {
+  document.querySelectorAll('.page').forEach(p =>
+    p.classList.remove('active')
+  );
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+};
+
+window.notice = function() {
+  alert("এই সুবিধাটি পরবর্তী ধাপে যুক্ত করা হবে।");
+};
+
+window.registerUser = async function() {
+  const name = document.getElementById("regName").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const phone = document.getElementById("regPhone").value.trim();
+  const password = document.getElementById("regPass").value;
+  const terms = document.getElementById("terms").checked;
+
+  if (!name || !email || !phone || !password) {
+    alert("সব ঘর পূরণ করো।");
+    return;
+  }
+
+  if (!terms) {
+    alert("Terms & Privacy Policy-তে সম্মতি দাও।");
+    return;
+  }
+
+  if (password.length < 6) {
+    alert("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।");
+    return;
+  }
+
+  try {
+    const result = await createUserWithEmailAndPassword(
+      auth, email, password
+    );
+    await updateProfile(result.user, {
+      displayName: name
+    });
+    alert("অ্যাকাউন্ট তৈরি হয়েছে!");
+    window.showPage("home");
+  } catch (error) {
+    alert("সমস্যা: " + error.message);
+  }
+};
 </script>
 </body>
 </html>
