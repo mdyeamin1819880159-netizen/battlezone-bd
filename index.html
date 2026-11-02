@@ -205,22 +205,9 @@ window.registerUser = async function() {
   alert("Terms & Privacy Policy-তে টিক দাও।");
   return;
  }
-
- if (password.length < 6) {
-  alert("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।");
-  return;
- }
-
  try {
   const result = await createUserWithEmailAndPassword(auth, email, password);
   await updateProfile(result.user, {displayName: name});
-
-  alert("অ্যাকাউন্ট তৈরি হয়েছে!");
-  window.showPage("home");
-
- } catch(error) {
-  alert("সমস্যা: " + error.message);
- }
 };
 window.signInUser = async function() {
  const email = document.getElementById("loginEmail").value.trim();
