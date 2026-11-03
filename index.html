@@ -156,7 +156,15 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
  <button onclick="notice()"><span>👤</span>Profile</button>
 </div>
 </section>
-
+<section id="balance" class="page">
+  <div class="card">
+    <h2>💰 My Balance</h2>
+    <h1 id="balanceAmount">0 BDT</h1>
+    <p id="accountIdText">Account ID: Loading...</p>
+    <button class="primary" onclick="loadBalance()">Check Balance</button>
+    <button class="primary" onclick="showPage('home')">← BACK TO HOME</button>
+  </div>
+</section>
 </main>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -169,7 +177,8 @@ import {
 import {
   getFirestore,
   doc,
-  setDoc
+  setDoc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 const firebaseConfig = {
  apiKey: "AIzaSyDgsq0z3uwRAmpBwWfsv7IGCZ7dVDuPiw0",
@@ -187,6 +196,34 @@ window.showPage = function(id) {
  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
  document.getElementById(id).classList.add('active');
  window.scrollTo(0,0);
+};
+
+window.loadBalance = async function() {
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("প্রথমে Login করো।");
+    window.showPage("login");
+    return;
+  }
+
+  try {
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+
+    if (userDoc.exists()) {
+      const data = userDoc.data();
+
+      document.getElementById("balanceAmount").textContent =
+        (data.balanceBDT ?? 0) + " BDT";
+
+      document.getElementById("accountIdText").textContent =
+        "Account ID: " + (data.accountId || "N/A");
+    } else {
+      alert("অ্যাকাউন্টের তথ্য পাওয়া যায়নি।");
+    }
+  } catch (error) {
+    alert("Balance দেখাতে সমস্যা হয়েছে: " + error.message);
+  }
 };
 
 window.notice = function() {
