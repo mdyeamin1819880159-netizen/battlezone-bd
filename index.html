@@ -166,7 +166,11 @@ import {
  signInWithEmailAndPassword,
  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-
+import {
+  getFirestore,
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 const firebaseConfig = {
  apiKey: "AIzaSyDgsq0z3uwRAmpBwWfsv7IGCZ7dVDuPiw0",
  authDomain: "battlezone-bd-94cbd.firebaseapp.com",
@@ -176,10 +180,9 @@ const firebaseConfig = {
  appId: "1:50794493055:web:5d1322e91f04d1a3a47b4a",
  measurementId: "G-7Q8K9JZWY9"
 };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
+const db = getFirestore(app);
 window.showPage = function(id) {
  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
  document.getElementById(id).classList.add('active');
@@ -207,12 +210,20 @@ window.registerUser = async function() {
   }
 
   try {
-    const result = await createUserWithEmailAndPassword(
-      auth, email, password
-    );
+    const result = await createUserWithEmailAndPassword(auth, email, password);
 
     await updateProfile(result.user, {
       displayName: name
+    });
+
+    const accountId = "BZBD-" + result.user.uid.slice(0, 8);
+
+    await setDoc(doc(db, "users", result.user.uid), {
+      username: name,
+      email: email,
+      phone: phone,
+      accountId: accountId,
+      balanceBDT: 0
     });
 
     alert("অ্যাকাউন্ট তৈরি সফল হয়েছে!");
