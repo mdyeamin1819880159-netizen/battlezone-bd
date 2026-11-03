@@ -190,24 +190,37 @@ window.notice = function() {
  alert("এই সুবিধাটি পরবর্তী ধাপে যুক্ত হবে।");
 };
 window.registerUser = async function() {
- const name = document.getElementById("regName").value.trim();
- const email = document.getElementById("regEmail").value.trim();
- const phone = document.getElementById("regPhone").value.trim();
- const password = document.getElementById("regPass").value;
- const terms = document.getElementById("terms").checked;
+  const name = document.getElementById("regName").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const phone = document.getElementById("regPhone").value.trim();
+  const password = document.getElementById("regPass").value;
+  const terms = document.getElementById("terms").checked;
 
- if (!name || !email || !phone || !password) {
-  alert("সব ঘর পূরণ করো।");
-  return;
- }
+  if (!name || !email || !phone || !password) {
+    alert("সব ঘর পূরণ করো!");
+    return;
+  }
 
- if (!terms) {
-  alert("Terms & Privacy Policy-তে টিক দাও।");
-  return;
- }
- try {
-  const result = await createUserWithEmailAndPassword(auth, email, password);
-  await updateProfile(result.user, {displayName: name});
+  if (!terms) {
+    alert("Terms & Privacy Policy-তে টিক দাও!");
+    return;
+  }
+
+  try {
+    const result = await createUserWithEmailAndPassword(
+      auth, email, password
+    );
+
+    await updateProfile(result.user, {
+      displayName: name
+    });
+
+    alert("অ্যাকাউন্ট তৈরি সফল হয়েছে!");
+    window.showPage("home");
+
+  } catch (error) {
+    alert("Register সমস্যা: " + error.message);
+  }
 };
 window.signInUser = async function() {
  const email = document.getElementById("loginEmail").value.trim();
