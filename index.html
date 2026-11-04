@@ -126,10 +126,10 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
 <div class="section-title">FREE FIRE</div>
 <div class="match-grid">
  <div class="match-card">
-  <div class="match-art">🔥 BR MATCH</div>
+  <div class="match-card" onclick="showPage('matches')">
   <div class="match-info"><b>BR MATCH</b><p>Battle Royale</p></div>
  </div>
- <div class="match-card">
+ <div class="match-card" onclick="showPage('csMatches')">
   <div class="match-art">⚔ CLASH SQUAD</div>
   <div class="match-info"><b>Clash Squad</b><p>4 Players</p></div>
  </div>
@@ -142,6 +142,49 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
   <div class="match-info"><b>CS 2 VS 2</b><p>2 Players</p></div>
  </div>
 </div>
+
+<!-- TOURNAMENT MATCH PAGE -->
+<section id="matches" class="page">
+  <div class="card">
+    <h2>🔥 BR TOURNAMENT</h2>
+    <p>Choose your Battle Royale match</p>
+
+    <button class="primary" onclick="notice()">
+      SOLO MATCH
+    </button>
+
+    <button class="primary" onclick="notice()">
+      DUO MATCH
+    </button>
+
+    <button class="primary" onclick="notice()">
+      SQUAD MATCH
+    </button>
+
+    <button class="primary" onclick="showPage('home')">
+      ← BACK TO HOME
+    </button>
+  </div>
+</section>
+
+<section id="csMatches" class="page">
+  <div class="card">
+    <h2>⚔ CLASH SQUAD</h2>
+    <p>Choose your Clash Squad match</p>
+
+    <button class="primary" onclick="notice()">
+      CS DUO — 2 VS 2
+    </button>
+
+    <button class="primary" onclick="notice()">
+      CS SQUAD — 4 VS 4
+    </button>
+
+    <button class="primary" onclick="showPage('home')">
+      ← BACK TO HOME
+    </button>
+  </div>
+</section>
 
 <div class="section-title">MY ACCOUNT</div>
 <div class="account-links">
