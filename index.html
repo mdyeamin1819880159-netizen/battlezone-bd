@@ -188,11 +188,11 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
   <div class="card">
     <h2>🛡️ BATTLEZONE BD ADMIN PANEL</h2>
     <p>Welcome to Admin Control Center</p>
-
+    
     <h3>🎮 Match Management</h3>
-    <button class="primary" onclick="notice()">
-      ➕ Add New Match
-    </button>
+    <button class="primary" onclick="showPage('addMatch')">
+       ➕ Add New Match
+      </button>
 
     <h3>💰 Deposit Management</h3>
     <button class="primary" onclick="notice()">
@@ -215,6 +215,55 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
     </button>
 
   </div>
+</section>
+
+<!-- ADD MATCH PAGE -->
+<section id="addMatch" class="page">
+
+  <button onclick="showPage('admin')"
+  style="width:100%;padding:12px;background:#ff9800;color:white;border:0;border-radius:10px;font-weight:bold;">
+    ← BACK TO ADMIN PANEL
+  </button>
+
+  <div class="card">
+    <h2>➕ CREATE NEW MATCH</h2>
+
+    <label>Match Type</label>
+    <select id="newMatchType">
+      <option value="BR">BR Tournament</option>
+      <option value="CS">CS Tournament</option>
+    </select>
+
+    <label>Match Mode</label>
+    <select id="newMatchMode">
+      <option value="Solo">Solo</option>
+      <option value="Duo">Duo</option>
+      <option value="Squad">Squad</option>
+    </select>
+
+    <label>Match Name</label>
+    <input id="newMatchName" placeholder="Enter match name">
+
+    <label>Entry Fee (BDT)</label>
+    <input id="newMatchFee" type="number" min="0" placeholder="Enter entry fee">
+
+    <label>Match Date</label>
+    <input id="newMatchDate" type="date">
+
+    <label>Match Start Time</label>
+    <input id="newMatchTime" type="time">
+
+    <label>Room ID</label>
+    <input id="newRoomID" placeholder="Room ID">
+
+    <label>Room Password</label>
+    <input id="newRoomPassword" placeholder="Room Password">
+
+    <button class="primary" onclick="createTournamentMatch()">
+      CREATE MATCH
+    </button>
+  </div>
+
 </section>
 
 <!-- TOURNAMENT MATCH PAGE -->
@@ -270,7 +319,9 @@ import {
   setDoc,
   getDoc,
   collection,
-  getDocs
+  getDocs,
+  addDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 const firebaseConfig = {
  apiKey: "AIzaSyDgsq0z3uwRAmpBwWfsv7IGCZ7dVDuPiw0",
@@ -340,6 +391,73 @@ window.showPage = function(id) {
  ) {
    window.loadTournamentMatches();
  }
+};
+
+window.createTournamentMatch = async function() {
+  try {
+    if (!auth.currentUser) {
+      alert("Please login first!");
+      return;
+    }
+
+    const uid = auth.currentUser.uid;
+    const ownerUID = "hgjVmn09obcPNGhE4ieIkRhys103";
+
+    const adminRef = doc(db, "admins", uid);
+    const adminSnap = await getDoc(adminRef);
+
+    const isOwner = uid === ownerUID;
+    const isAdmin = adminSnap.exists() &&
+                    adminSnap.data().active === true;
+
+    if (!isOwner && !isAdmin) {
+      alert("Admin permission required!");
+      return;
+    }
+
+    const type = document.getElementById("newMatchType").value;
+    const mode = document.getElementById("newMatchMode").value;
+    const name = document.getElementById("newMatchName").value.trim();
+    const fee = Number(document.getElementById("newMatchFee").value);
+    const date = document.getElementById("newMatchDate").value;
+    const time = document.getElementById("newMatchTime").value;
+    const roomID = document.getElementById("newRoomID").value.trim();
+    const roomPassword = document.getElementById("newRoomPassword").value.trim();
+
+    if (!name || !date || !time || !Number.isFinite(fee) || fee < 0) {
+      alert("Please fill in all required fields!");
+      return;
+    }
+
+    const startAt = new Date(date + "T" + time + ":00+06:00");
+
+    if (Number.isNaN(startAt.getTime())) {
+      alert("Invalid match date or time!");
+      return;
+    }
+
+    await addDoc(collection(db, "matches"), {
+      type,
+      mode,
+      name,
+      fee,
+      date,
+      time,
+      startAt: startAt.getTime(),
+      roomID,
+      roomPassword,
+      status: "upcoming",
+      createdAt: serverTimestamp(),
+      createdBy: uid
+    });
+
+    alert("Match created successfully!");
+    showPage("admin");
+
+  } catch (error) {
+    console.error(error);
+    alert("Match create failed: " + error.message);
+  }
 };
 
 window.loadTournamentMatches = async function() {
