@@ -252,6 +252,38 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+const OWNER_UID = "hgjVmn09obcPNGhE4ieIkRhys103";
+
+onAuthStateChanged(auth, async (user) => {
+  const adminButton = document.getElementById("ownerAdminButton");
+
+  if (!adminButton) return;
+
+  if (!user) {
+    adminButton.style.display = "none";
+    return;
+  }
+
+  try {
+    if (user.uid === OWNER_UID) {
+      adminButton.style.display = "block";
+      return;
+    }
+
+    const adminRef = doc(db, "admins", user.uid);
+    const adminSnap = await getDoc(adminRef);
+
+    if (adminSnap.exists() && adminSnap.data().active === true) {
+      adminButton.style.display = "block";
+    } else {
+      adminButton.style.display = "none";
+    }
+  } catch (error) {
+    adminButton.style.display = "none";
+    console.error("Admin check failed:", error);
+  }
+});
+
 window.showPage = function(id) {
  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
 
