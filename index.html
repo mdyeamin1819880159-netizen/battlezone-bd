@@ -403,8 +403,7 @@ window.createTournamentMatch = async function() {
     const uid = auth.currentUser.uid;
     const ownerUID = "hgjVmn09obcPNGhE4ieIkRhys103";
 
-    const adminRef = doc(db, "admins", uid);
-    const adminSnap = await getDoc(adminRef);
+    const adminSnap = await getDoc(doc(db, "admins", uid));
 
     const isOwner = uid === ownerUID;
     const isAdmin = adminSnap.exists() &&
@@ -424,7 +423,8 @@ window.createTournamentMatch = async function() {
     const roomID = document.getElementById("newRoomID").value.trim();
     const roomPassword = document.getElementById("newRoomPassword").value.trim();
 
-    if (!name || !date || !time || !Number.isFinite(fee) || fee < 0) {
+    if (!name || !date || !time ||
+        !Number.isFinite(fee) || fee < 0) {
       alert("Please fill in all required fields!");
       return;
     }
@@ -436,7 +436,7 @@ window.createTournamentMatch = async function() {
       return;
     }
 
-    await addDoc(collection(db, "matches"), {
+    const matchRef = await addDoc(collection(db, "matches"), {
       type,
       mode,
       name,
@@ -444,11 +444,17 @@ window.createTournamentMatch = async function() {
       date,
       time,
       startAt: startAt.getTime(),
-      roomID,
-      roomPassword,
       status: "upcoming",
       createdAt: serverTimestamp(),
       createdBy: uid
+    });
+
+    await setDoc(doc(db, "matchRooms", matchRef.id), {
+      roomID,
+      roomPassword,
+      matchId: matchRef.id,
+      createdBy: uid,
+      updatedAt: serverTimestamp()
     });
 
     alert("Match created successfully!");
