@@ -178,20 +178,10 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
   <div class="card">
     <h2>🔥 BR TOURNAMENT</h2>
     <p>Choose your Battle Royale match</p>
-
-    <button class="primary" onclick="notice()">
-      SOLO MATCH
-    </button>
-
-    <button class="primary" onclick="notice()">
-      DUO MATCH
-    </button>
-
-    <button class="primary" onclick="notice()">
-      SQUAD MATCH
-    </button>
-
-    <button class="primary" onclick="showPage('home')">
+<div id="brMatchList">
+  <p>ম্যাচ লোড হচ্ছে...</p>
+</div>
+   <button class="primary" onclick="showPage('home')">
       ← BACK TO HOME
     </button>
   </div>
@@ -200,8 +190,9 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
 <div class="card">
 <h2>⚔ CLASH SQUAD</h2>
 <p>Choose your Clash Squad match</p>
-<button class="primary" onclick="notice()">CS DUO — 2 VS 2</button>
-<button class="primary" onclick="notice()">CS SQUAD — 4 VS 4</button>
+<div id="csMatchList">
+  <p>ম্যাচ লোড হচ্ছে...</p>
+</div>
 <button class="primary" onclick="showPage('home')">← BACK TO HOME</button>
 </div>
 </section>
@@ -230,7 +221,9 @@ import {
   getFirestore,
   doc,
   setDoc,
-  getDoc
+  getDoc,
+  collection,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 const firebaseConfig = {
  apiKey: "AIzaSyDgsq0z3uwRAmpBwWfsv7IGCZ7dVDuPiw0",
@@ -252,10 +245,95 @@ onAuthStateChanged(auth, (user) => {
     window.showPage("home");
   }
 });
+
 window.showPage = function(id) {
  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- window.scrollTo(0,0);
+
+ const page = document.getElementById(id);
+ if (!page) return;
+
+ page.classList.add('active');
+ window.scrollTo(0, 0);
+
+ if (
+   (id === "matches" || id === "csMatches") &&
+   typeof window.loadTournamentMatches === "function"
+ ) {
+   window.loadTournamentMatches();
+ }
+};
+
+window.loadTournamentMatches = async function() {
+  const brList = document.getElementById("brMatchList");
+  const csList = document.getElementById("csMatchList");
+
+  if (!brList || !csList) return;
+
+  brList.innerHTML = "<p>ম্যাচ লোড হচ্ছে...</p>";
+  csList.innerHTML = "<p>ম্যাচ লোড হচ্ছে...</p>";
+
+  try {
+    const snapshot = await getDocs(collection(db, "matches"));
+
+    brList.innerHTML = "";
+    csList.innerHTML = "";
+
+    if (snapshot.empty) {
+      brList.innerHTML = "<p>এখন কোনো BR ম্যাচ নেই।</p>";
+      csList.innerHTML = "<p>এখন কোনো CS ম্যাচ নেই।</p>";
+      return;
+    }
+
+    snapshot.forEach((matchDoc) => {
+      const match = matchDoc.data();
+      const type = String(match.type || "").toUpperCase();
+      const category = String(match.category || "").toUpperCase();
+
+      const card = document.createElement("div");
+      card.className = "card";
+      card.style.margin = "12px 0";
+      card.style.padding = "14px";
+
+      const title = document.createElement("h3");
+      title.textContent = match.title || type || "Tournament Match";
+      card.appendChild(title);
+
+      const details = document.createElement("p");
+      details.textContent =
+        "Entry Fee: " + (Number(match.entryFee) || 0) + " BDT";
+      card.appendChild(details);
+
+      const time = document.createElement("p");
+      time.textContent = "Start: " + (match.startTime || "To be announced");
+      card.appendChild(time);
+
+      const join = document.createElement("button");
+      join.className = "primary";
+      join.textContent = "JOIN";
+      join.onclick = () => {
+        alert("Join form পরের ধাপে যুক্ত করব।");
+      };
+      card.appendChild(join);
+
+      if (category === "BR" || category === "BATTLE ROYALE") {
+        brList.appendChild(card);
+      } else if (category === "CS" || category === "CLASH SQUAD") {
+        csList.appendChild(card);
+      }
+    });
+
+    if (!brList.children.length) {
+      brList.innerHTML = "<p>এখন কোনো BR ম্যাচ নেই।</p>";
+    }
+
+    if (!csList.children.length) {
+      csList.innerHTML = "<p>এখন কোনো CS ম্যাচ নেই।</p>";
+    }
+  } catch (error) {
+    brList.textContent = "BR ম্যাচ লোড করা যায়নি।";
+    csList.textContent = "CS ম্যাচ লোড করা যায়নি।";
+    console.error("Match loading error:", error);
+  }
 };
 
 window.loadBalance = async function() {
