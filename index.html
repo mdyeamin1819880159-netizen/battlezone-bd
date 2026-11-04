@@ -123,6 +123,25 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
 
 <div class="ticker">🏆 BattleZone BD Tournament Arena 🏆</div>
 
+<<section id="csMatches" class="page">
+<button class="primary" onclick="showPage('home')">← BACK TO HOME</button>
+  <div class="card">
+    <h2>⚔ CLASH SQUAD</h2>
+    <p>Choose your Clash Squad match</p>
+
+    <button class="primary" onclick="notice()">
+      CS DUO — 2 VS 2
+    </button>
+
+    <button class="primary" onclick="notice()">
+      CS SQUAD — 4 VS 4
+    </button>
+
+    <button class="primary" onclick="showPage('home')">
+      ← BACK TO HOME
+    </button>
+  </div>
+</section>
 <div class="section-title">FREE FIRE</div>
 <div class="match-grid">
   <div class="match-card" onclick="showPage('matches')">
@@ -142,6 +161,19 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
   <div class="match-info"><b>CS 2 VS 2</b><p>2 Players</p></div>
  </div>
 </div>
+<div class="section-title">MY ACCOUNT</div>
+<div class="account-links">
+ <button onclick="showPage('balance')">💰 My Balance</button>
+ <button onclick="showPage('history')">📜 Transaction History</button>
+</div>
+
+<div class="bottom-menu">
+ <button onclick="showPage('home')"><span>🎮</span>Play</button>
+ <button onclick="notice()"><span>📋</span>My Matches</button>
+ <button onclick="notice()"><span>🏆</span>Results</button>
+ <button onclick="notice()"><span>👤</span>Profile</button>
+</div>
+</section>
 <!-- TOURNAMENT MATCH PAGE -->
 <section id="matches" class="page">
 <button onclick="showPage('home')" style="display:block;width:100%;padding:12px;margin:0 0 15px;background:#ff9800;color:#fff;border:0;border-radius:10px;font-size:16px;font-weight:bold;">
@@ -169,38 +201,6 @@ footer{text-align:center;color:#8494ac;font-size:12px;padding:25px}
   </div>
 </section>
 
-<section id="csMatches" class="page">
-<button class="primary" onclick="showPage('home')">← BACK TO HOME</button>
-  <div class="card">
-    <h2>⚔ CLASH SQUAD</h2>
-    <p>Choose your Clash Squad match</p>
-
-    <button class="primary" onclick="notice()">
-      CS DUO — 2 VS 2
-    </button>
-
-    <button class="primary" onclick="notice()">
-      CS SQUAD — 4 VS 4
-    </button>
-
-    <button class="primary" onclick="showPage('home')">
-      ← BACK TO HOME
-    </button>
-  </div>
-</section>
-<div class="section-title">MY ACCOUNT</div>
-<div class="account-links">
- <button onclick="showPage('balance')">💰 My Balance</button>
- <button onclick="showPage('history')">📜 Transaction History</button>
-</div>
-
-<div class="bottom-menu">
- <button onclick="showPage('home')"><span>🎮</span>Play</button>
- <button onclick="notice()"><span>📋</span>My Matches</button>
- <button onclick="notice()"><span>🏆</span>Results</button>
- <button onclick="notice()"><span>👤</span>Profile</button>
-</div>
-</section>
 <section id="balance" class="page">
   <div class="card">
     <h2>💰 My Balance</h2>
